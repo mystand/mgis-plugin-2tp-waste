@@ -1,0 +1,20 @@
+{
+  "name": "mgis-plugin-2tp-waste",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mgis",
+    "plugin",
+    "waste"
+  ],
+  "author": "Alexandr Promakh",
+  "license": "ISC",
+  "dependencies": {
+    "react-bootstrap-table": "^2.5.8",
+    "react-dom": "15.3.0"
+  }
+}
