@@ -18,29 +18,31 @@ function featureSelectValue(feature) {
 const fields = [
   {
     key: 'hazard_class',
-    name: 'Класс опасности',
+    label: 'Класс опасности',
+    width: '100',
     editable: {
       type: 'select',
       options: { values: ['Нет', 'I класс', 'II класс', 'III класс', 'IV класс', 'V класс'] }
     }
   },
-  { key: 'waste', name: 'waste' },
-  { key: 'waste_code', name: 'waste_code' },
-  { key: 'waste_presence', name: 'waste_presence' },
-  { key: 'waste_creation', name: 'waste_creation' },
-  { key: 'waste_receipt_sum', name: 'waste_receipt_sum' },
-  { key: 'waste_receipt_import', name: 'waste_receipt_import' },
-  { key: 'waste_usage', name: 'waste_usage' },
-  { key: 'waste_neutralization', name: 'waste_neutralization' },
-  { key: 'waste_transfer_sum', name: 'waste_transfer_sum' },
-  { key: 'waste_transfer_for_usage', name: 'waste_transfer_for_usage' },
-  { key: 'waste_transfer_for_neutralization', name: 'waste_transfer_for_neutralization' },
-  { key: 'waste_transfer_for_burial', name: 'waste_transfer_for_burial' },
-  { key: 'waste_placement_sum', name: 'waste_placement_sum' },
-  { key: 'waste_placement_storage', name: 'waste_placement_storage' },
-  { key: 'waste_placement_burial', name: 'waste_placement_burial' },
-  { key: 'waste_remain', name: 'waste_remain' }
-].map(x => ({ ...x, width: '200' }))
+  { key: 'waste', label: 'Отходы' },
+  { key: 'waste_code', label: 'Код отхода' },
+  { key: 'waste_presence', label: 'Наличие отходов на начало отчетного года' },
+  { key: 'waste_creation', label: 'Образование отходов за отчетный год' },
+  { key: 'waste_receipt_sum', label: 'Поступление отходов из других организаций (всего)' },
+  { key: 'waste_receipt_import', label: 'Поступление отходов из других организаций (в т.ч. по импорту)' },
+  { key: 'waste_usage', label: 'Использование отходов' },
+  { key: 'waste_neutralization', label: 'Обезвреживание отходов' },
+  { key: 'waste_transfer_sum', label: 'Передача отходов другим организациям (всего)' },
+  { key: 'waste_transfer_for_usage', label: 'Передача отходов другим организациям (для использования)' },
+  { key: 'waste_transfer_for_neutralization', label: 'Передача отходов другим организациям (для обезвреживания)' },
+  { key: 'waste_transfer_for_storage', label: 'Передача отходов другим организациям (для хранения)' },
+  { key: 'waste_transfer_for_burial', label: 'Передача отходов другим организациям (для захоронения)' },
+  { key: 'waste_placement_sum', label: 'Размещение отходов на собственных объектах за отчетный год (всего)' },
+  { key: 'waste_placement_storage', label: 'Размещение отходов на собственных объектах за отчетный год (хранение)' },
+  { key: 'waste_placement_burial', label: 'Размещение отходов на собственных объектах за отчетный год (захоронение)' },
+  { key: 'waste_remain', label: 'Наличие в организации на конец отчетного года' }
+].map(x => ({ ...x, width: x.width || '200' }))
 
 export default class WasteTable extends React.Component {
   static propTypes = {
@@ -156,8 +158,8 @@ export default class WasteTable extends React.Component {
           > Объект </TableHeaderColumn>
           {
             fields.map((field) => {
-              const { name, key, ...props } = field
-              return <TableHeaderColumn { ...props } key={ key } dataField={ key }>{ name }</TableHeaderColumn>
+              const { label, key, ...props } = field
+              return <TableHeaderColumn { ...props } key={ key } dataField={ key }>{ label }</TableHeaderColumn>
             })
           }
           <TableHeaderColumn
