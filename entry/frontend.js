@@ -14,7 +14,7 @@ export default {
     components: [
       { component: MenuComponent, position: 'adminMenu' },
       { component: TableModal, position: 'modals', options: { key: '2tp-table' } },
-      // { component: CardButton, position: 'card' }
+      { component: CardButton, position: 'cardBottom' }
     ],
     routes: {
       '/admin/waste': WastePage
