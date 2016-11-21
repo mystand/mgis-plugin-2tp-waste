@@ -49,7 +49,7 @@ export async function update(ctx) {
   ctx.body = records[0]
 }
 
-export async function del(ctx) {
+export async function destroy(ctx) {
   const key = ctx.params[PRIMARY_KEY]
 
   try {

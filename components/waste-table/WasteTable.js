@@ -3,6 +3,8 @@ import R from 'ramda'
 import '!style!css!react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 
+import Button from 'core/frontend/components/shared/button/Button'
+
 import './2tp-waste-bootstrap.styl'
 
 function isNew(item) {
@@ -50,12 +52,14 @@ export default class WasteTable extends React.Component {
     super()
     this.counter = 0
     this.state = {
-      itemChanges: {}
+      itemChanges: {},
+      toDelete: []
     }
 
     this.add = ::this.add
     this.afterSaveCell = ::this.afterSaveCell
     this.pack = ::this.pack
+    this.save = ::this.save
   }
 
   pack(item) {
@@ -97,17 +101,26 @@ export default class WasteTable extends React.Component {
     const { onSave } = this.props
 
     if (R.isFunction(onSave)) {
-      const { itemChanges } = this.state
+      const { itemChanges, toDelete } = this.state
       const items = R.values(itemChanges).map(item => isNew(item) ? this.unpackNew(item) : this.unpack(item))
-      onSave(items)
+      onSave(items, toDelete)
+    }
+  }
+
+  delete(id) {
+    if (isNew({ id })) {
+      this.setState({ itemChanges: R.dissoc(id, this.state.itemChanges) })
+    } else {
+      this.setState({ toDelete: [...this.state.toDelete, id] })
     }
   }
 
   render() {
     const { items, features, disabled } = this.props
-    const { itemChanges } = this.state
+    const { itemChanges, toDelete } = this.state
 
-    const data = [...items.map(this.pack), ...R.values(itemChanges).filter(isNew)]
+    const data = [...items.map(this.pack), ...R.values(itemChanges)]
+      .filter(item => isNew(item) || !R.contains(item.id, toDelete))
     const cellEdit = disabled ? undefined : {
       mode: 'click',
       blurToSave: true,
@@ -133,9 +146,16 @@ export default class WasteTable extends React.Component {
               <TableHeaderColumn key={ field.key } dataField={ field.key }>{field.name}</TableHeaderColumn>
             ))
           }
+          <TableHeaderColumn
+            dataField='id'
+            dataFormat={
+              // eslint-disable-next-line react/jsx-no-bind
+              id => <button onClick={ this.delete.bind(this, id) }>✕</button>
+            }
+          />
         </BootstrapTable>
-        { (!disabled) && <button onClick={ this.add }>Add</button> }
-        { (!disabled) && <button onClick={ this.save }>Save</button> }
+        { (!disabled) && <Button onClick={ this.add }>Add</Button> }
+        { (!disabled) && <Button onClick={ this.save }>Save</Button> }
       </div>
     )
   }

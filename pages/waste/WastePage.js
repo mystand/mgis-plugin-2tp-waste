@@ -24,10 +24,10 @@ class WastePage extends React.Component {
     dispatch(wasteActions.fetch())
   }
 
-  onSave(items) {
+  onSave(items, toDelete) {
     const { dispatch } = this.props
 
-    R.reduce((promise, item) => promise.then(() => {
+    const updatePromise = R.reduce((promise, item) => promise.then(() => {
       return new Promise((resolve) => {
         const action = isNew(item)
           ? wasteActions.create(item, resolve)
@@ -35,9 +35,13 @@ class WastePage extends React.Component {
         dispatch(action)
       })
     }), Promise.resolve(), items)
-      .then(() => dispatch(goBack()))
-  }
 
+    R.reduce((promise, id) => promise.then(() => {
+      return new Promise((resolve) => {
+        dispatch(wasteActions.deleteRequest({ id }, resolve))
+      })
+    }), updatePromise, toDelete).then(() => dispatch(goBack()))
+  }
 
   render() {
     const { loaded, items, features, layerKey } = this.props
