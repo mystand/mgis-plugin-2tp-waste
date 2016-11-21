@@ -141,6 +141,19 @@ export default class WasteTable extends React.Component {
       afterSaveCell: this.afterSaveCell
     }
 
+    const controlColumns = []
+    if (!disabled) {
+      controlColumns.push(<TableHeaderColumn
+        key="actions"
+        width='42'
+        dataField='id'
+        dataFormat={
+          // eslint-disable-next-line react/jsx-no-bind
+          id => <button onClick={ this.delete.bind(this, id) }>✕</button>
+        }
+      />)
+    }
+
     return (
       <div className='plugin-2tp-waste-table'>
         <BootstrapTable
@@ -162,14 +175,7 @@ export default class WasteTable extends React.Component {
               return <TableHeaderColumn { ...props } key={ key } dataField={ key }>{ label }</TableHeaderColumn>
             })
           }
-          <TableHeaderColumn
-            width='42'
-            dataField='id'
-            dataFormat={
-              // eslint-disable-next-line react/jsx-no-bind
-              id => <button onClick={ this.delete.bind(this, id) }>✕</button>
-            }
-          />
+          { controlColumns }
         </BootstrapTable>
         { (!disabled) && <Button onClick={ this.add }>Add</Button> }
         { (!disabled) && <Button onClick={ this.save }>Save</Button> }
