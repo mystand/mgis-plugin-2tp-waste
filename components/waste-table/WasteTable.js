@@ -144,7 +144,7 @@ export default class WasteTable extends React.Component {
     const controlColumns = []
     if (!disabled) {
       controlColumns.push(<TableHeaderColumn
-        key="actions"
+        key='actions'
         width='42'
         dataField='id'
         dataFormat={

@@ -12,7 +12,7 @@ const CardButton = (props) => {
 
   return (
     <div className={ styles.container } >
-      <Button onClick={ onClick }> 123123 </Button>
+      <Button onClick={ onClick }>2ТП отходы</Button>
     </div>
   )
 }
