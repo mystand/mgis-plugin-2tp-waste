@@ -16,7 +16,14 @@ function featureSelectValue(feature) {
 }
 
 const fields = [
-  { key: 'hazard_class', name: 'hazard_class' },
+  {
+    key: 'hazard_class',
+    name: 'Класс опасности',
+    editable: {
+      type: 'select',
+      options: { values: ['Нет', 'I класс', 'II класс', 'III класс', 'IV класс', 'V класс'] }
+    }
+  },
   { key: 'waste', name: 'waste' },
   { key: 'waste_code', name: 'waste_code' },
   { key: 'waste_presence', name: 'waste_presence' },
@@ -33,7 +40,7 @@ const fields = [
   { key: 'waste_placement_storage', name: 'waste_placement_storage' },
   { key: 'waste_placement_burial', name: 'waste_placement_burial' },
   { key: 'waste_remain', name: 'waste_remain' }
-].map(x => ({ ...x, width: 200 }))
+].map(x => ({ ...x, width: '200' }))
 
 export default class WasteTable extends React.Component {
   static propTypes = {
@@ -146,13 +153,12 @@ export default class WasteTable extends React.Component {
               type: 'select',
               options: { values: R.values(features).map(featureSelectValue) }
             } }
-          > Feature </TableHeaderColumn>
+          > Объект </TableHeaderColumn>
           {
-            fields.map(field => (
-              <TableHeaderColumn key={ field.key } dataField={ field.key } width={ field.width }>
-                {field.name}
-              </TableHeaderColumn>
-            ))
+            fields.map((field) => {
+              const { name, key, ...props } = field
+              return <TableHeaderColumn { ...props } key={ key } dataField={ key }>{ name }</TableHeaderColumn>
+            })
           }
           <TableHeaderColumn
             width='42'

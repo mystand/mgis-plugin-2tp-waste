@@ -10,7 +10,7 @@ import WasteTable from '../../components/waste-table/WasteTable'
 import { tablePropsSelector } from '../../selectors'
 
 function isNew(item) {
-  return !R.isNil(item.id)
+  return R.isNil(item.id)
 }
 
 class WastePage extends React.Component {
