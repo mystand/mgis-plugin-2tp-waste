@@ -33,7 +33,7 @@ const fields = [
   { key: 'waste_placement_storage', name: 'waste_placement_storage' },
   { key: 'waste_placement_burial', name: 'waste_placement_burial' },
   { key: 'waste_remain', name: 'waste_remain' }
-]
+].map(x => ({ ...x, width: 200 }))
 
 export default class WasteTable extends React.Component {
   static propTypes = {
@@ -119,8 +119,13 @@ export default class WasteTable extends React.Component {
     const { items, features, disabled } = this.props
     const { itemChanges, toDelete } = this.state
 
-    const data = [...items.map(this.pack), ...R.values(itemChanges)]
-      .filter(item => isNew(item) || !R.contains(item.id, toDelete))
+    const data = [
+      ...items.map(this.pack)
+        .filter(item => !R.contains(item.id, toDelete))
+        .map(item => itemChanges[item.id] || item),
+      ...R.values(itemChanges).filter(isNew)
+    ]
+
     const cellEdit = disabled ? undefined : {
       mode: 'click',
       blurToSave: true,
@@ -133,8 +138,9 @@ export default class WasteTable extends React.Component {
           data={ data }
           cellEdit={ cellEdit }
         >
-          <TableHeaderColumn dataField='id' isKey> ID </TableHeaderColumn>
+          <TableHeaderColumn dataField='id' isKey width='1'> ID </TableHeaderColumn>
           <TableHeaderColumn
+            width='200'
             dataField='target_feature_id'
             editable={ {
               type: 'select',
@@ -143,10 +149,13 @@ export default class WasteTable extends React.Component {
           > Feature </TableHeaderColumn>
           {
             fields.map(field => (
-              <TableHeaderColumn key={ field.key } dataField={ field.key }>{field.name}</TableHeaderColumn>
+              <TableHeaderColumn key={ field.key } dataField={ field.key } width={ field.width }>
+                {field.name}
+              </TableHeaderColumn>
             ))
           }
           <TableHeaderColumn
+            width='42'
             dataField='id'
             dataFormat={
               // eslint-disable-next-line react/jsx-no-bind
