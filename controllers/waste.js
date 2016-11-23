@@ -2,15 +2,7 @@
 
 import R from 'ramda'
 
-const TABLE_NAME = '2tp_wastes'
-const PRIMARY_KEY = 'id'
-const ATTRIBUTES_FLOAT = [
-  'waste_presence', 'waste_creation',
-  'waste_receipt_sum', 'waste_receipt_import', 'waste_usage', 'waste_neutralization', 'waste_transfer_sum',
-  'waste_transfer_for_usage', 'waste_transfer_for_neutralization', 'waste_transfer_for_burial', 'waste_placement_sum',
-  'waste_placement_storage', 'waste_placement_burial', 'waste_remain'
-]
-const ATTRIBUTES = ['target_layer_key', 'target_feature_id', 'hazard_class', 'waste', 'waste_code', ...ATTRIBUTES_FLOAT]
+import { TABLE_NAME, PRIMARY_KEY, ATTRIBUTES_FLOAT, ATTRIBUTES } from '../constants'
 
 const pickAttributes = R.pick(ATTRIBUTES)
 
