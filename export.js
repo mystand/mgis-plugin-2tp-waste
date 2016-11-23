@@ -12,7 +12,7 @@ function reduceWaste(items) {
   }, {}, items)
 }
 
-export default async function exportAction(knex, result) {
+export async function exportFeatures(knex, result) {
   const features = R.indexBy(x => x.id, result.features)
   const waste = await knex(TABLE_NAME)
   const wasteGroupsByFeatureId = R.groupBy(w => w.target_feature_id, waste)
@@ -35,3 +35,29 @@ export default async function exportAction(knex, result) {
 
   return { ...result, features: R.values(features) }
 }
+
+const ATTRIBUTES_INDEX = R.indexBy(
+  x => x.key,
+  ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x, type: 'Number', readonly: true }))
+)
+
+export async function exportLayers(knex, result) {
+  const layers = R.indexBy(x => x.key, result.layers)
+
+  const config = R.find(x => x.key === '2tp-waste', result.pluginConfigs)
+  if (!config) return result
+
+  const layer = layers[config.properties.layerKey]
+  if (R.isNil(layer)) return result
+
+  layers[layer.key] = {
+    ...layer,
+    attributes: {
+      ...layer.attributes,
+      ...ATTRIBUTES_INDEX
+    }
+  }
+
+  return { ...result, layers: R.values(layers) }
+}
+

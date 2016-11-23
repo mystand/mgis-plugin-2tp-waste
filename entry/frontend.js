@@ -4,7 +4,6 @@ import CardButton from '../components/card-button/CardButton'
 import WastePage from '../pages/waste/WastePage'
 import saga from '../saga'
 import reducer from '../reducer'
-import { buildLayersReducer } from '../layers-reducer-builder'
 
 export default {
   name: '2ТП-отходы',
@@ -21,9 +20,6 @@ export default {
       '/admin/waste': WastePage
     },
     saga,
-    reducer,
-    replaceReducers: [
-      { replacer: buildLayersReducer, path: ['layers'] }
-    ]
+    reducer
   }
 }

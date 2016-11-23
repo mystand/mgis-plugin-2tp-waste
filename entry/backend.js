@@ -1,5 +1,5 @@
 import * as WasteController from '../controllers/waste'
-import exportAction from '../export'
+import { exportFeatures, exportLayers } from '../export'
 
 
 export default {
@@ -10,6 +10,7 @@ export default {
     { method: 'delete', path: '/api/waste/:id', action: WasteController.destroy }
   ],
   exports: [
-    { type: 'json', middleware: exportAction }
+    { type: 'json', middleware: exportFeatures },
+    { type: 'json', middleware: exportLayers }
   ]
 }
