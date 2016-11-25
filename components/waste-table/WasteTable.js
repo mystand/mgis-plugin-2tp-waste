@@ -156,10 +156,7 @@ export default class WasteTable extends React.Component {
 
     return (
       <div className='plugin-2tp-waste-table'>
-        <BootstrapTable
-          data={ data }
-          cellEdit={ cellEdit }
-        >
+        <BootstrapTable data={ data } cellEdit={ cellEdit } height='600px'>
           <TableHeaderColumn dataField='id' isKey width='1'> ID </TableHeaderColumn>
           <TableHeaderColumn
             width='200'
