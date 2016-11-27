@@ -42,7 +42,7 @@ export async function exportFeatures(knex, result) {
 
 const ATTRIBUTES_INDEX = R.indexBy(
   x => x.key,
-  ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x, readonly: true }))
+  ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x }))
 )
 
 export async function exportLayers(knex, result) {
