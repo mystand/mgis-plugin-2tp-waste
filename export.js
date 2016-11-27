@@ -2,13 +2,17 @@ import R from 'ramda'
 
 import { TABLE_NAME, ATTRIBUTES_FOR_REDUCE } from './constants'
 
-const ATTRIBUTES_KEYS = R.map(x => x.key, ATTRIBUTES_FOR_REDUCE)
-
 const sumFn = (x, y) => x + y
+const concatFn = (x, y) => `${x}, ${y}`
+const NUMBER_ATTRIBUTES_KEYS = ATTRIBUTES_FOR_REDUCE.filter(x => x.type === 'Number').map(x => x.key)
+const STRING_ATTRIBUTES_KEYS = ATTRIBUTES_FOR_REDUCE.filter(x => x.type === 'String').map(x => x.key)
 
 function reduceWaste(items) {
   return R.reduce((sum, item) => {
-    return R.mergeWith(sumFn, R.pick(ATTRIBUTES_KEYS, item), sum)
+    return R.pipe(
+      R.mergeWith(sumFn, R.pick(NUMBER_ATTRIBUTES_KEYS, item)),
+      R.mergeWith(concatFn, R.pick(STRING_ATTRIBUTES_KEYS, item))
+    )(sum)
   }, {}, items)
 }
 
@@ -38,7 +42,7 @@ export async function exportFeatures(knex, result) {
 
 const ATTRIBUTES_INDEX = R.indexBy(
   x => x.key,
-  ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x, type: 'Number', readonly: true }))
+  ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x, readonly: true }))
 )
 
 export async function exportLayers(knex, result) {

@@ -63,7 +63,7 @@ WastePage.propTypes = {
   items: PropTypes.array.isRequired,
   loaded: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
-  layerKey: PropTypes.string.isRequired,
+  layerKey: PropTypes.string,
   features: PropTypes.object
 }
 
