@@ -28,4 +28,4 @@ export const ATTRIBUTES_FOR_REDUCE = [
   { key: 'waste_placement_storage', label: 'Размещение отходов на собственных объектах за отчетный год (хранение)' },
   { key: 'waste_placement_burial', label: 'Размещение отходов на собственных объектах за отчетный год (захоронение)' },
   { key: 'waste_remain', label: 'Наличие в организации на конец отчетного года' }
-].map(x => ({ ...x, type: x.type || 'Number', readonly: x.readonly == null ? true : x.readonly }))
+].map(x => ({ ...x, type: x.type || 'Number', readonly: x.readonly == null ? false : x.readonly }))
