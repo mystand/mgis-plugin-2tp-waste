@@ -8,7 +8,16 @@ import reducer from '../reducer'
 export default {
   name: '2ТП-отходы',
   options: [
-    { key: 'layerKey', label: 'Слой', type: 'select', options: 'layers' }
+    { key: 'layerKey', label: 'Слой', type: 'select', inputOptions: { options: 'layers' } },
+    {
+      key: 'additionalLayersWithButton',
+      label: 'Отображать кнопку "2ТП отходы" в слоях:',
+      type: 'select',
+      inputOptions: {
+        options: 'layers',
+        multiple: true
+      }
+    }
   ],
   connects: {
     components: [
