@@ -29,3 +29,5 @@ export const ATTRIBUTES_FOR_REDUCE = [
   { key: 'waste_placement_burial', label: 'Размещение отходов на собственных объектах за отчетный год (захоронение)' },
   { key: 'waste_remain', label: 'Наличие в организации на конец отчетного года' }
 ].map(x => ({ ...x, type: x.type || 'Number', readonly: x.readonly == null ? false : x.readonly }))
+
+export const HAZARD_CLASSES = ['I класс', 'II класс', 'III класс', 'IV класс', 'V класс']

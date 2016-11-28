@@ -6,6 +6,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import Button from 'core/frontend/components/shared/button/Button'
 
 import './2tp-waste-bootstrap.styl'
+import { HAZARD_CLASSES } from '../../constants'
 
 function isNew(item) {
   return item.id.startsWith('__')
@@ -22,7 +23,7 @@ const fields = [
     width: '100',
     editable: {
       type: 'select',
-      options: { values: ['Нет', 'I класс', 'II класс', 'III класс', 'IV класс', 'V класс'] }
+      options: { values: ['Нет', ...HAZARD_CLASSES] }
     }
   },
   { key: 'waste', label: 'Отходы' },
