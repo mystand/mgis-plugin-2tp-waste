@@ -1,3 +1,5 @@
+import R from 'ramda'
+
 import MenuComponent from '../components/menu/Menu'
 import TableModal from '../components/table-modal/TableModal'
 import CardButton from '../components/card-button/CardButton'
@@ -5,18 +7,36 @@ import WastePage from '../pages/waste/WastePage'
 import saga from '../saga'
 import reducer from '../reducer'
 
+function buildMunicipalitiesPopulationOptions(formOptions) {
+  const { directories: { layers }, values } = formOptions
+  const layerKey = values.municipalitiesLayerKey
+  if (R.isNil(layerKey)) return []
+
+  const attributes = R.find(x => x.key === layerKey, layers).attributes
+  return R.keys(attributes).map(key => ({ value: key, label: attributes[key].label }))
+}
+
 export default {
   name: '2ТП-отходы',
   options: [
     { key: 'layerKey', label: 'Слой', type: 'select', inputOptions: { options: 'layers' } },
     {
+      key: 'municipalitiesLayerKey',
+      label: 'Слой муниципалитетов',
+      type: 'select',
+      inputOptions: { options: 'layers' }
+    },
+    {
+      key: 'municipalitiesPopulationPropertyKey',
+      label: 'Поле населения муниципалитета',
+      type: 'select',
+      inputOptions: { options: buildMunicipalitiesPopulationOptions }
+    },
+    {
       key: 'additionalLayersWithButton',
       label: 'Отображать кнопку "2ТП отходы" в слоях:',
       type: 'select',
-      inputOptions: {
-        options: 'layers',
-        multiple: true
-      }
+      inputOptions: { options: 'layers', multiple: true }
     }
   ],
   connects: {
