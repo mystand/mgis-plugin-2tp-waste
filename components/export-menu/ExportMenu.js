@@ -2,15 +2,19 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import Menu from 'core/frontend/common/menu/Menu'
-import styles from 'core/frontend/admin/admin-menu/admin-menu.styl'
+import styles from 'core/frontend/client/client-menu/client-menu.styl'
 
-const MenuComponent = (props) => {
+function onClick() {
+  window.lodation = '/api/waste/xls'
+}
+
+const ExportMenu = (props) => {
   const { dispatch } = props
 
   return (
     <Menu
-      to='/admin/waste'
-      title={ 'Отходы' }
+      onClick={ onClick }
+      title={ 'Отчет по отходам' }
       dispatch={ dispatch }
       className={ styles.menu }
       titleClassName={ styles.menuTitle }
@@ -19,8 +23,8 @@ const MenuComponent = (props) => {
   )
 }
 
-MenuComponent.propTypes = {
+ExportMenu.propTypes = {
   dispatch: PropTypes.func
 }
 
-export default connect(() => ({}))(MenuComponent)
+export default connect(() => ({}))(ExportMenu)

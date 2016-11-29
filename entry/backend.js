@@ -1,6 +1,5 @@
 import * as WasteController from '../controllers/waste'
 import { exportFeatures, exportLayers } from '../export'
-// import { updateWasteCache } from '../models/feature-before-save'
 
 export default {
   routes: [
@@ -14,8 +13,5 @@ export default {
   exports: [
     { type: 'json', middleware: exportFeatures },
     { type: 'json', middleware: exportLayers }
-  ],
-  // feature: [
-  //   { action: 'beforeSave', callback: updateWasteCache }
-  // ]
+  ]
 }

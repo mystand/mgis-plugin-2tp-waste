@@ -1,6 +1,7 @@
 import R from 'ramda'
 
-import { TABLE_NAME, ATTRIBUTES_FOR_REDUCE } from './constants'
+import { TABLE_NAME, ATTRIBUTES_FOR_REDUCE, HAZARD_CLASSES } from './constants'
+import { buildWasteCreationCachePropertyKey } from './utils'
 
 const sumFn = (x, y) => x + y
 const concatFn = (x, y) => `${x}, ${y}`
@@ -45,6 +46,16 @@ const ATTRIBUTES_INDEX = R.indexBy(
   ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x }))
 )
 
+const MUNICIPALITY_CACHE_ATTRIBUTES = R.indexBy(
+  x => x.key,
+  HAZARD_CLASSES.map(hazardClass => ({
+    key: buildWasteCreationCachePropertyKey(hazardClass),
+    type: 'Number',
+    hidden: true,
+    label: `Отходы суммарно (${hazardClass})`
+  }))
+)
+
 export async function exportLayers(knex, result) {
   const layers = R.indexBy(x => x.key, result.layers)
 
@@ -52,16 +63,22 @@ export async function exportLayers(knex, result) {
   if (!config) return result
 
   const layer = layers[config.properties.layerKey]
-  if (R.isNil(layer)) return result
+  const municipalityLayer = layers[config.properties.municipalitiesLayerKey]
 
-  layers[layer.key] = {
-    ...layer,
-    attributes: {
-      ...layer.attributes,
-      ...ATTRIBUTES_INDEX
+  if (layer != null) {
+    layers[layer.key] = {
+      ...layer,
+      attributes: { ...layer.attributes, ...ATTRIBUTES_INDEX }
+    }
+  }
+  if (municipalityLayer != null) {
+    layers[municipalityLayer.key] = {
+      ...municipalityLayer,
+      attributes: { ...municipalityLayer.attributes, ...MUNICIPALITY_CACHE_ATTRIBUTES }
     }
   }
 
+  if (layer == null && municipalityLayer == null) return result
   return { ...result, layers: R.values(layers) }
 }
 

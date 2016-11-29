@@ -1,8 +1,10 @@
 import R from 'ramda'
 
-import MenuComponent from '../components/menu/Menu'
+import AdminWasteMenu from '../components/admin-waste-menu/AdminWasteMenu'
 import TableModal from '../components/table-modal/TableModal'
 import CardButton from '../components/card-button/CardButton'
+import ExportMenu from '../components/export-menu/ExportMenu'
+import CardExportButton from '../components/card-export-button/CardExportButton'
 import WastePage from '../pages/waste/WastePage'
 import saga from '../saga'
 import reducer from '../reducer'
@@ -41,9 +43,11 @@ export default {
   ],
   connects: {
     components: [
-      { component: MenuComponent, position: 'adminMenu' },
+      { component: AdminWasteMenu, position: 'adminMenu' },
       { component: TableModal, position: 'modals', options: { key: '2tp-table' } },
-      { component: CardButton, position: 'cardBottom' }
+      { component: CardButton, position: 'cardBottom' },
+      { component: ExportMenu, position: 'clientMenu' },
+      { component: CardExportButton, position: 'cardBottom' }
     ],
     routes: {
       '/admin/waste': WastePage
