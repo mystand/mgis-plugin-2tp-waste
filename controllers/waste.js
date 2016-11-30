@@ -138,6 +138,7 @@ export async function xls(ctx) {
         ])
       })
     })
+    data.push([null, 'Население', null, municipalityPopulation])
     HAZARD_CLASSES.forEach((hazardClass, hIndex) => {
       const hazardClassKey = buildWasteCreationCachePropertyKey(hazardClass)
       regionWaste[hazardClassKey] = (regionWaste[hazardClassKey] || 0) + (municipality.properties[hazardClassKey] || 0)
@@ -216,6 +217,7 @@ export async function xls_municipality(ctx) {
       ])
     })
   })
+  data.push([null, 'Население', null, municipality.properties[municipalitiesPopulationPropertyKey]])
   HAZARD_CLASSES.forEach((hazardClass, hIndex) => {
     const hazardClassKey = buildWasteCreationCachePropertyKey(hazardClass)
     data.push([

@@ -30,7 +30,7 @@ export default {
     },
     {
       key: 'municipalitiesPopulationPropertyKey',
-      label: 'Поле населения муниципалитета',
+      label: 'Поле муниципалитета с отходами от населения для отчета',
       type: 'select',
       inputOptions: { options: buildMunicipalitiesPopulationOptions }
     },
