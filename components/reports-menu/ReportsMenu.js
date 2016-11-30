@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import classnames from 'classnames'
 
 import Menu from 'core/frontend/common/menu/Menu'
-import styles from 'core/frontend/client/client-menu/client-menu.styl'
+import menuStyles from 'core/frontend/client/client-menu/client-menu.styl'
+import styles from './reports-menu.styl'
 
 function onClick() {
   window.location = '/api/waste/xls'
@@ -14,17 +16,17 @@ const ReportsMenu = (props) => {
   return (
     <Menu
       title={ 'Отчеты' }
-      className={ styles.menu }
-      titleClassName={ styles.menuTitle }
-      childrenContainerClassName={ styles.childContainer }
+      className={ menuStyles.menu }
+      titleClassName={ menuStyles.menuTitle }
+      childrenContainerClassName={ menuStyles.childContainer }
     >
       <Menu
         onClick={ onClick }
         title={ 'По отходам' }
         dispatch={ dispatch }
-        className={ styles.menu }
-        titleClassName={ styles.menuTitle }
-        activeClassName={ styles.menuTitleActive }
+        className={ classnames(styles.menu, menuStyles.menu) }
+        titleClassName={ menuStyles.menuTitle }
+        activeClassName={ menuStyles.menuTitleActive }
       />
     </Menu>
   )
