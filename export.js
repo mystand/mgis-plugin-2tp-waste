@@ -1,3 +1,4 @@
+import uuid from 'uuid'
 import R from 'ramda'
 
 import { TABLE_NAME, ATTRIBUTES_FOR_REDUCE, HAZARD_CLASSES } from './constants'
@@ -48,11 +49,13 @@ const ATTRIBUTES_INDEX = R.indexBy(
 
 const MUNICIPALITY_CACHE_ATTRIBUTES = R.indexBy(
   x => x.key,
-  HAZARD_CLASSES.map(hazardClass => ({
+  HAZARD_CLASSES.map((hazardClass, i) => ({
+    id: uuid.v1(),
     key: buildWasteCreationCachePropertyKey(hazardClass),
     type: 'Number',
     hidden: true,
-    label: `Отходы суммарно (${hazardClass})`
+    label: `Отходы суммарно (${hazardClass})`,
+    order: 1000 + i
   }))
 )
 
