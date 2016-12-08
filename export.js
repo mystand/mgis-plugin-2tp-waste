@@ -46,18 +46,21 @@ export async function exportFeatures(knex, result) {
 
 const ATTRIBUTES_INDEX = R.indexBy(
   x => x.key,
-  ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x }))
+  ATTRIBUTES_FOR_REDUCE.map(x => ({ ...x, id: x.key }))
 )
 
 const MUNICIPALITY_CACHE_ATTRIBUTES = R.indexBy(
   x => x.key,
-  HAZARD_CLASSES.map(hazardClass => ({
-    id: uuid.v1(),
-    key: buildWasteCreationCachePropertyKey(hazardClass),
-    type: 'Number',
-    visibility: VISIBILITY.NONE,
-    label: `Отходы суммарно (${hazardClass})`
-  }))
+  HAZARD_CLASSES.map((hazardClass) => {
+    const key = buildWasteCreationCachePropertyKey(hazardClass)
+    return {
+      id: key,
+      key,
+      type: 'Number',
+      visibility: VISIBILITY.NONE,
+      label: `Отходы суммарно (${hazardClass})`
+    }
+  })
 )
 
 export async function exportLayers(knex, result) {

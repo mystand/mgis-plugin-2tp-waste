@@ -19,40 +19,39 @@ function buildMunicipalitiesPopulationOptions(formOptions) {
 }
 
 export default {
-  name: '2ТП-отходы',
-  options: [
-    { key: 'layerKey', label: 'Слой', type: 'select', inputOptions: { options: 'layers' } },
-    {
-      key: 'municipalitiesLayerKey',
-      label: 'Слой муниципалитетов',
-      type: 'select',
-      inputOptions: { options: 'layers' }
-    },
-    {
-      key: 'municipalitiesPopulationPropertyKey',
-      label: 'Поле муниципалитета с отходами от населения для отчета',
-      type: 'select',
-      inputOptions: { options: buildMunicipalitiesPopulationOptions }
-    },
-    {
-      key: 'additionalLayersWithButton',
-      label: 'Отображать кнопку "2ТП отходы" в слоях:',
-      type: 'select',
-      inputOptions: { options: 'layers', multiple: true }
-    }
+  form: {
+    fields: [
+      { key: 'layerKey', label: 'Слой', input: 'select', inputOptions: { options: 'layers' } },
+      {
+        key: 'municipalitiesLayerKey',
+        label: 'Слой муниципалитетов',
+        input: 'select',
+        inputOptions: { options: 'layers' }
+      },
+      {
+        key: 'municipalitiesPopulationPropertyKey',
+        label: 'Поле муниципалитета с отходами от населения для отчета',
+        input: 'select',
+        inputOptions: { options: buildMunicipalitiesPopulationOptions }
+      },
+      {
+        key: 'additionalLayersWithButton',
+        label: 'Отображать кнопку "2ТП отходы" в слоях:',
+        input: 'select',
+        inputOptions: { options: 'layers', multiple: true }
+      }
+    ]
+  },
+  components: [
+    { component: AdminWasteMenu, position: 'adminMenu' },
+    { component: TableModal, position: 'modals', options: { key: '2tp-table' } },
+    { component: CardButton, position: 'cardBottom' },
+    { component: ReportsMenu, position: 'clientMenu' },
+    { component: CardExportButton, position: 'cardBottom' }
   ],
-  connects: {
-    components: [
-      { component: AdminWasteMenu, position: 'adminMenu' },
-      { component: TableModal, position: 'modals', options: { key: '2tp-table' } },
-      { component: CardButton, position: 'cardBottom' },
-      { component: ReportsMenu, position: 'clientMenu' },
-      { component: CardExportButton, position: 'cardBottom' }
-    ],
-    routes: {
-      '/admin/waste': WastePage
-    },
-    saga,
-    reducer
-  }
+  routes: {
+    '/admin/waste': WastePage
+  },
+  saga,
+  reducer
 }
