@@ -138,12 +138,12 @@ export async function xls(ctx) {
         ])
       })
     })
-    data.push([null, 'Население', null, municipalityPopulation])
+    data.push([`ВСЕГО по ${municipality.properties.name}`, 'Население', null, municipalityPopulation])
     HAZARD_CLASSES.forEach((hazardClass, hIndex) => {
       const hazardClassKey = buildWasteCreationCachePropertyKey(hazardClass)
       regionWaste[hazardClassKey] = (regionWaste[hazardClassKey] || 0) + (municipality.properties[hazardClassKey] || 0)
       data.push([
-        hIndex === 0 ? `ВСЕГО по ${municipality.properties.name}` : null,
+        null,
         hIndex === 0 ? 'Предприятия' : null,
         hazardClass,
         municipality.properties[hazardClassKey]
@@ -152,9 +152,9 @@ export async function xls(ctx) {
   })
 
   data.push(['ИТОГО по Республика Тыва', 'Население', null, regionPopulation])
-  HAZARD_CLASSES.forEach((hazardClass) => {
+  HAZARD_CLASSES.forEach((hazardClass, hIndex) => {
     const hazardClassKey = buildWasteCreationCachePropertyKey(hazardClass)
-    data.push([null, null, hazardClass, regionWaste[hazardClassKey]])
+    data.push([null, hIndex === 0 ? 'Предприятия' : null, hazardClass, regionWaste[hazardClassKey]])
   })
 
   ctx.type = '.xlsx'
@@ -217,11 +217,16 @@ export async function xls_municipality(ctx) {
       ])
     })
   })
-  data.push([null, 'Население', null, municipality.properties[municipalitiesPopulationPropertyKey]])
+  data.push([
+    `ВСЕГО по ${municipality.properties.name}`,
+    'Население',
+    null,
+    municipality.properties[municipalitiesPopulationPropertyKey]]
+  )
   HAZARD_CLASSES.forEach((hazardClass, hIndex) => {
     const hazardClassKey = buildWasteCreationCachePropertyKey(hazardClass)
     data.push([
-      hIndex === 0 ? `ВСЕГО по ${municipality.properties.name}` : null,
+      null,
       hIndex === 0 ? 'Предприятия' : null,
       hazardClass,
       municipality.properties[hazardClassKey]
