@@ -1,4 +1,3 @@
-import uuid from 'uuid'
 import R from 'ramda'
 
 import { VISIBILITY } from 'core/frontend/constants/base'
@@ -7,7 +6,11 @@ import { TABLE_NAME, ATTRIBUTES_FOR_REDUCE, HAZARD_CLASSES } from './constants'
 import { buildWasteCreationCachePropertyKey } from './utils'
 
 const sumFn = (x, y) => R.round(4, parseFloat(x) + parseFloat(y)) // todo понять, почему иногда приходят строки
-const concatFn = (x, y) => `${x}, ${y}`
+const concatFn = (x, y) => {
+  if (x == null) return y == null ? '' : y
+  if (y == null) return x
+  return `${x}, ${y}`
+}
 const NUMBER_ATTRIBUTES_KEYS = ATTRIBUTES_FOR_REDUCE.filter(x => x.type === 'Number').map(x => x.key)
 const STRING_ATTRIBUTES_KEYS = ATTRIBUTES_FOR_REDUCE.filter(x => x.type === 'String').map(x => x.key)
 
