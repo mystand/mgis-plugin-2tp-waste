@@ -7,7 +7,7 @@ import styles from './card-button.styl'
 
 const CardExportButton = (props) => {
   const { layer, feature, municipalitiesLayerKey } = props
-  if (municipalitiesLayerKey !== layer.key) return null
+  if (municipalitiesLayerKey !== layer.key || feature.id == null) return null
 
   function onClick() {
     window.location = `/api/waste/xls/${feature.id}`
